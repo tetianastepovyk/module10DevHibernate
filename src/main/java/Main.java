@@ -16,16 +16,16 @@ public class Main {
         ClientCrudService clientCrudService = new ClientCrudService();
         PlanetCrudService planetCrudService = new PlanetCrudService();
 
-        clientCrudService.createClient("Bobo Lions");
-        System.out.println(clientCrudService.getClientById(11));
-        clientCrudService.updateClient(2, "UpdatedName Client");
-        clientCrudService.deleteClientById(6L);
+        clientCrudService.create("Bobo Lions");
+        System.out.println(clientCrudService.get(11));
+        clientCrudService.update(2, "UpdatedName Client");
+        clientCrudService.delete(6L);
 
 
-        planetCrudService.createPlanet("MERC", "Mercury");
-        System.out.println(planetCrudService.getPlanetById("MERC"));
-        planetCrudService.updatePlanet("MARS", "UpdatedPlanet");
-        planetCrudService.deletePlanet("JUP");
+        planetCrudService.create("MERC", "Mercury");
+        System.out.println(planetCrudService.get("MERC"));
+        planetCrudService.update("MARS", "UpdatedPlanet");
+        planetCrudService.delete("JUP");
 
         HibernateUtil.getInstance().close();
     }

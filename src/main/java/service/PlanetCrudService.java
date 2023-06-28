@@ -8,41 +8,68 @@ import org.hibernate.Transaction;
 public class PlanetCrudService {
     private final SessionFactory sessionFactory = HibernateUtil.getInstance().getSessionFactory();
 
-    public void createPlanet(String id, String name) {
+    public void create(String id, String name) {
         Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
         Planet planet = new Planet();
         planet.setId(id);
         planet.setName(name);
         session.persist(planet);
         transaction.commit();
-        session.close();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw e;
+        } finally {
+            session.close();
+        }
     }
 
-    public Planet getPlanetById(String id) {
+    public Planet get(String id) {
         Session session = sessionFactory.openSession();
         Planet planet = session.get(Planet.class, id);
         session.close();
         return planet;
     }
 
-    public void updatePlanet(String id, String name) {
+    public void update(String id, String name) {
         Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
         Planet planet = session.get(Planet.class, id);
         planet.setName(name);
         session.persist(planet);
         transaction.commit();
-        session.close();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw e;
+        } finally {
+            session.close();
+        }
     }
 
-    public void deletePlanet(String id) {
+    public void delete(String id) {
         Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
         Planet planet = session.get(Planet.class, id);
         session.remove(planet);
         transaction.commit();
-        session.close();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw e;
+        } finally {
+            session.close();
+        }
     }
 
 }
